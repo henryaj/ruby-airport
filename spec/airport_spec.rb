@@ -103,7 +103,59 @@ end
 # Once all the planes are in the air again, check that they have the status of flying!
 
 describe "The grand finale (last spec)" do
-  xit 'all planes can land and all planes can take off' do
+  it 'all planes can land and all planes can take off' do
+    airport = Airport.new
+    allow(airport).to receive(:weather_status).and_return(:stormy)
+    
+    # Make six new planes, all flying by default
+    plane1 = Plane.new
+    plane2 = Plane.new
+    plane3 = Plane.new
+    plane4 = Plane.new
+    plane5 = Plane.new
+    plane6 = Plane.new
+
+    # Planes cannot land until bad weather clears:
+    expect{ airport.clear_for_landing(plane1) }.to raise_error
+    expect{ airport.clear_for_landing(plane2) }.to raise_error
+    expect{ airport.clear_for_landing(plane3) }.to raise_error
+    expect{ airport.clear_for_landing(plane4) }.to raise_error
+    expect{ airport.clear_for_landing(plane5) }.to raise_error
+    expect{ airport.clear_for_landing(plane6) }.to raise_error
+
+    allow(airport).to receive(:weather_status).and_return(:sunny)
+
+    # Now planes can land because the weather is good.
+    airport.clear_for_landing(plane1)
+    airport.clear_for_landing(plane2)
+    airport.clear_for_landing(plane3)
+    airport.clear_for_landing(plane4)
+    airport.clear_for_landing(plane5)
+    airport.clear_for_landing(plane6)
+
+    # Expect the planes to report that they have landed.
+    expect(plane1.status).to eq "landed"
+    expect(plane2.status).to eq "landed"
+    expect(plane3.status).to eq "landed"
+    expect(plane4.status).to eq "landed"
+    expect(plane5.status).to eq "landed"
+    expect(plane6.status).to eq "landed"
+
+    # The planes take off again...    
+    airport.clear_for_takeoff(plane1)
+    airport.clear_for_takeoff(plane2)
+    airport.clear_for_takeoff(plane3)
+    airport.clear_for_takeoff(plane4)
+    airport.clear_for_takeoff(plane5)
+    airport.clear_for_takeoff(plane6)
+
+    # And now should report that they air airborne.
+    expect(plane1.status).to eq "flying"
+    expect(plane2.status).to eq "flying"
+    expect(plane3.status).to eq "flying"
+    expect(plane4.status).to eq "flying"
+    expect(plane5.status).to eq "flying"
+    expect(plane6.status).to eq "flying"
   end
 end
 
