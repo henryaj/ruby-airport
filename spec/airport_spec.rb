@@ -11,13 +11,13 @@ describe Airport do
   let(:plane)         { double :plane }
   
   context 'taking off and landing' do
-    it 'a plane can land' do
+    it 'can command a plane to land' do
       allow(airport).to receive(:weather_status).and_return("sunny")
       expect(plane).to receive(:land!)
       airport.clear_for_landing(plane)
     end
     
-    it 'a plane can take off' do
+    it 'can command a plane to take off' do
       allow(airport).to receive(:weather_status).and_return("sunny")
       expect(plane).to receive(:take_off!)
       airport.clear_for_takeoff(plane)
@@ -25,7 +25,7 @@ describe Airport do
   end
   
   context 'traffic control' do
-    it 'a plane cannot land if the airport is full' do
+    it 'will not allow a plane to land if the airport is full' do
       full_airport = airport
       allow(airport).to receive(:weather_status).and_return("sunny")
       allow(plane).to receive(:land!)
@@ -44,22 +44,12 @@ describe Airport do
 
   context 'weather conditions' do
 
-    it 'weather can be stormy or sunny' do
-      expect(airport.weather_status).to match (/stormy|sunny/)
-    end
-
-    it 'weather is sometimes stormy and sometimes sunny' do
-      weather_log = []
-      1000.times { weather_log << airport.weather_status }
-      expect(weather_log.uniq).to contain_exactly("sunny", "stormy")
-    end
-
-    it 'a plane cannot take off when there is a storm brewing' do
+    it 'will not allow a plane to take off when there is a storm brewing' do
       allow(airport).to receive(:weather_status).and_return("stormy")
       expect{ airport.clear_for_takeoff(plane) }.to raise_error
     end
     
-    it 'a plane cannot land in the middle of a storm' do
+    it 'will not allow a plane to land in the middle of a storm' do
       allow(airport).to receive(:weather_status).and_return("stormy")
       expect{ airport.clear_for_landing(plane) }.to raise_error
     end
