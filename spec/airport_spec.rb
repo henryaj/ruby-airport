@@ -4,22 +4,22 @@ require 'plane'
 # A plane currently in the airport can be requested to take off.
 #
 # No more planes can be added to the airport, if it's full.
-# It is up to you how many planes can land in the airport and how that is impermented.
+# it is up to you how many planes can land in the airport and how that is impermented.
 #
 # If the airport is full then no planes can land
 describe Airport do
   let(:airport) { Airport.new }
   
   context 'taking off and landing' do
-    it 'a plane can land' do
+    xit 'a plane can land' do
     end
     
-    it 'a plane can take off' do
+    xit 'a plane can take off' do
     end
   end
   
   context 'traffic control' do
-    it 'a plane cannot land if the airport is full' do
+    xit 'a plane cannot land if the airport is full' do
     end
     
     # Include a weather condition using a module.
@@ -30,10 +30,10 @@ describe Airport do
     # If the airport has a weather condition of stormy,
     # the plane can not land, and must not be in the airport
     context 'weather conditions' do
-      it 'a plane cannot take off when there is a storm brewing' do
+      xit 'a plane cannot take off when there is a storm brewing' do
       end
       
-      it 'a plane cannot land in the middle of a storm' do
+      xit 'a plane cannot land in the middle of a storm' do
       end
     end
   end
@@ -48,16 +48,16 @@ describe Plane do
 
   let(:plane) { Plane.new }
   
-  it 'has a flying status when created' do
+  xit 'has a flying status when created' do
   end
   
-  it 'has a flying status when in the air' do
+  xit 'has a flying status when in the air' do
   end
   
-  it 'can take off' do
+  xit 'can take off' do
   end
   
-  it 'changes its status to flying after taking of' do
+  xit 'changes its status to flying after taking of' do
   end
 end
 
@@ -67,6 +67,6 @@ end
 # Check when all the planes have landed that they have the right status "landed"
 # Once all the planes are in the air again, check that they have the status of flying!
 describe "The gand finale (last spec)" do
-  it 'all planes can land and all planes can take off' do
+  xit 'all planes can land and all planes can take off' do
   end
 end
