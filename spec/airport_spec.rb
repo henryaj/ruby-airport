@@ -39,10 +39,15 @@ describe Airport do
     # If the airport has a weather condition of stormy,
     # the plane can not land, and must not be in the airport
     context 'weather conditions' do
-      xit 'a plane cannot take off when there is a storm brewing' do
+
+      it 'a plane cannot take off when there is a storm brewing' do
+        allow(airport).to receive(:weather_status).and_return(:stormy)
+        expect{ airport.clear_for_takeoff(plane) }.to raise_error
       end
       
-      xit 'a plane cannot land in the middle of a storm' do
+      it 'a plane cannot land in the middle of a storm' do
+        allow(airport).to receive(:weather_status).and_return(:stormy)
+        expect{ airport.clear_for_landing(plane) }.to raise_error
       end
     end
   end
