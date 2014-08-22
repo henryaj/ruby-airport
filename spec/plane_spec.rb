@@ -18,12 +18,12 @@ describe Plane do
   end
   
   it 'can land' do
-    expect{ plane.land! }.not_to raise_error
+    expect(plane.methods).to include(:land!)
   end
   
   it 'can take off' do
     plane.land!
-    expect{ plane.take_off! }.not_to raise_error
+    expect(plane.methods).to include(:take_off!)
   end
   
   it 'changes its status to landed after landing' do
