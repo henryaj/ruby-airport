@@ -18,7 +18,7 @@ class Airport
 
 	def clear_for_landing(plane)
 		raise if full
-		raise if weather_status == "stormy"
+		raise if weather_status != "sunny"
 		plane.land!
 		planes << plane
 	end
