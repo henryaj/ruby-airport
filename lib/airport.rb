@@ -12,12 +12,12 @@ class Airport
 		@planes ||= []
 	end
 
-	def full
+	def full?
 		@capacity == planes.count
 	end
 
 	def clear_for_landing(plane)
-		raise if full
+		raise if full?
 		raise if weather_status != "sunny"
 		plane.land!
 		planes << plane
