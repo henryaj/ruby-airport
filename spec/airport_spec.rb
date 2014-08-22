@@ -47,6 +47,12 @@ describe Airport do
         expect(airport.weather_status).to match (/stormy|sunny/)
       end
 
+      it 'weather is sometimes stormy and sometimes sunny' do
+        weather_log = []
+        1000.times { weather_log << airport.weather_status }
+        expect(weather_log.uniq).to contain_exactly("sunny", "stormy")
+      end
+
       it 'a plane cannot take off when there is a storm brewing' do
         allow(airport).to receive(:weather_status).and_return(:stormy)
         expect{ airport.clear_for_takeoff(plane) }.to raise_error
