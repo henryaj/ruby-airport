@@ -14,11 +14,13 @@ describe Airport do
   
   context 'taking off and landing' do
     it 'a plane can land' do
+      allow(airport).to receive(:weather_status).and_return(:sunny)
       expect(plane).to receive(:land!)
       airport.clear_for_landing(plane)
     end
     
     it 'a plane can take off' do
+      allow(airport).to receive(:weather_status).and_return(:sunny)
       expect(plane).to receive(:take_off!)
       airport.clear_for_takeoff(plane)
     end
