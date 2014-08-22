@@ -71,16 +71,23 @@ describe Plane do
   end
   
   it 'can land' do
+    expect(plane).to receive(:land!)
     plane.land!
-    expect(plane.status).to eq "landed"
   end
   
   it 'can take off' do
+    expect(plane).to receive(:take_off!)
     plane.land!; plane.take_off!
-    expect(plane.status).to eq "flying"
   end
   
-  xit 'changes its status to flying after taking of' do
+  it 'changes its status to landed after landing' do
+    plane.land!
+    expect(plane.status).to eq "landed"
+  end
+
+  it 'changes its status to flying after taking off' do
+    plane.land!; plane.take_off!
+    expect(plane.status).to eq "flying"
   end
 end
 
