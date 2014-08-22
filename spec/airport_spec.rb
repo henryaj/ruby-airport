@@ -1,10 +1,11 @@
 require 'airport'
 require 'plane'
+require 'weather'
 
 # A plane currently in the airport can be requested to take off.
 #
 # No more planes can be added to the airport, if it's full.
-# it is up to you how many planes can land in the airport and how that is impermented.
+# it is up to you how many planes can land in the airport and how that is implemented.
 #
 # If the airport is full then no planes can land
 describe Airport do
@@ -39,6 +40,10 @@ describe Airport do
     # If the airport has a weather condition of stormy,
     # the plane can not land, and must not be in the airport
     context 'weather conditions' do
+
+      it 'weather can be stormy or sunny' do
+        expect(airport.weather_status).to match (/stormy|sunny/)
+      end
 
       it 'a plane cannot take off when there is a storm brewing' do
         allow(airport).to receive(:weather_status).and_return(:stormy)
@@ -91,12 +96,14 @@ describe Plane do
   end
 end
 
-# grand final
+# grand finale
 # Given 6 planes, each plane must land. When the airport is full, every plane must take off again.
 # Be careful of the weather, it could be stormy!
 # Check when all the planes have landed that they have the right status "landed"
 # Once all the planes are in the air again, check that they have the status of flying!
-describe "The gand finale (last spec)" do
+
+describe "The grand finale (last spec)" do
   xit 'all planes can land and all planes can take off' do
   end
 end
+

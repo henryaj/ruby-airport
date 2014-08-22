@@ -1,4 +1,8 @@
+require 'weather'
+
 class Airport
+
+	include Weather
 
 	def initialize
 		@capacity = 50
@@ -22,9 +26,6 @@ class Airport
 	def clear_for_takeoff(plane)
 		raise if weather_status == :stormy
 		plane.take_off!
-	end
-
-	def weather_status
 	end
 
 end
