@@ -20,6 +20,7 @@ class Airport
 	end
 
 	def clear_for_takeoff(plane)
+		raise if weather_status == :stormy
 		plane.take_off!
 	end
 
