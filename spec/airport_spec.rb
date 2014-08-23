@@ -22,6 +22,13 @@ describe Airport do
       expect(plane).to receive(:take_off!)
       airport.clear_for_takeoff(plane)
     end
+
+    it 'stashes a plane in the planes array when it lands' do
+      allow(airport).to receive(:weather_status).and_return("sunny")
+      allow(plane).to receive(:land!)
+      airport.clear_for_landing(plane)
+      expect(airport.planes).to eq([plane])
+    end
   end
   
   context 'traffic control' do
