@@ -10,6 +10,31 @@ describe Airport do
   let(:airport)       { Airport.new }
   let(:plane)         { double :plane }
   
+  context 'basic airport properties' do
+    it 'knows if it is full' do
+      expect(airport.full?).to eq false
+      allow(airport).to receive(:weather_status).and_return("sunny")
+      allow(plane).to receive(:land!)
+      50.times { airport.clear_for_landing(plane) }
+      expect(airport.full?).to eq true
+    end
+
+    it 'knows its capacity' do
+      expect(airport.capacity).to eq Airport::AIRPORT_CAPACITY
+    end
+
+    it 'has an empty array for planes by default' do
+      expect(airport.planes).to eq []
+    end
+
+    it 'knows what planes are in the airport' do
+      allow(airport).to receive(:weather_status).and_return("sunny")
+      allow(plane).to receive(:land!)
+      airport.clear_for_landing(plane)
+      expect(airport.planes).to eq [plane]
+    end
+  end
+
   context 'taking off and landing' do
     it 'can command a plane to land' do
       allow(airport).to receive(:weather_status).and_return("sunny")

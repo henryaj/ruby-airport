@@ -4,8 +4,12 @@ class Airport
 
 	include Weather
 
+	attr_reader :capacity
+
+	AIRPORT_CAPACITY = 50
+
 	def initialize
-		@capacity = 50
+		@capacity = AIRPORT_CAPACITY
 	end
 
 	def planes
