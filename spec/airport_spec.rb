@@ -54,6 +54,15 @@ describe Airport do
       airport.clear_for_landing(plane)
       expect(airport.planes).to eq([plane])
     end
+
+    it 'removes the plane from the planes array when it takes off' do
+      allow(airport).to receive(:weather_status).and_return("sunny")
+      allow(plane).to receive(:land!)
+      airport.clear_for_landing(plane)
+      allow(plane).to receive(:take_off!)
+      airport.clear_for_takeoff(plane)
+      expect(airport.planes).to eq([])
+    end
   end
   
   context 'traffic control' do
