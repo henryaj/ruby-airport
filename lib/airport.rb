@@ -1,4 +1,5 @@
-require 'weather'
+require_relative '../lib/weather.rb'
+require_relative '../lib/plane.rb'
 
 class Airport
 
@@ -21,14 +22,15 @@ class Airport
 	end
 
 	def clear_for_landing(plane)
-		raise if full?
-		raise if weather_status != "sunny"
+		raise "Airport is full" if full?
+		raise "Plane has already landed" if plane.status == "landed"
+		raise "Weather is too bad to land" if weather_status != "sunny"
 		plane.land!
 		planes << plane
 	end
 
 	def clear_for_takeoff(plane)
-		raise if weather_status == "stormy"
+		raise "Weather is too bad to take off" if weather_status == "stormy"
 		plane.take_off!
 		planes.delete(plane)
 	end

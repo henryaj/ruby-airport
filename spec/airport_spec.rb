@@ -9,13 +9,14 @@ require 'airport'
 describe Airport do
   let(:airport)       { Airport.new }
   let(:plane)         { double :plane }
-  
+  let(:flying_plane)  { double :plane, { :status => "flying", :land! => nil }}
+  let(:landed_plane)  { double :plane, { :status => "landed", :take_off! => nil}}
+
   context 'basic airport properties' do
     it 'knows if it is full' do
       expect(airport.full?).to eq false
       allow(airport).to receive(:weather_status).and_return("sunny")
-      allow(plane).to receive(:land!)
-      50.times { airport.clear_for_landing(plane) }
+      50.times { airport.clear_for_landing(flying_plane) }
       expect(airport.full?).to eq true
     end
 
@@ -29,38 +30,35 @@ describe Airport do
 
     it 'knows what planes are in the airport' do
       allow(airport).to receive(:weather_status).and_return("sunny")
-      allow(plane).to receive(:land!)
-      airport.clear_for_landing(plane)
-      expect(airport.planes).to eq [plane]
+      airport.clear_for_landing(flying_plane)
+      expect(airport.planes).to eq [flying_plane]
     end
   end
 
   context 'taking off and landing' do
     it 'can command a plane to land' do
       allow(airport).to receive(:weather_status).and_return("sunny")
-      expect(plane).to receive(:land!)
-      airport.clear_for_landing(plane)
+      expect(flying_plane).to receive(:land!)
+      airport.clear_for_landing(flying_plane)
     end
     
     it 'can command a plane to take off' do
       allow(airport).to receive(:weather_status).and_return("sunny")
-      expect(plane).to receive(:take_off!)
-      airport.clear_for_takeoff(plane)
+      expect(landed_plane).to receive(:take_off!)
+      airport.clear_for_takeoff(landed_plane)
     end
 
     it 'stashes a plane in the planes array when it lands' do
       allow(airport).to receive(:weather_status).and_return("sunny")
-      allow(plane).to receive(:land!)
-      airport.clear_for_landing(plane)
-      expect(airport.planes).to eq([plane])
+      airport.clear_for_landing(flying_plane)
+      expect(airport.planes).to eq([flying_plane])
     end
 
     it 'removes the plane from the planes array when it takes off' do
       allow(airport).to receive(:weather_status).and_return("sunny")
-      allow(plane).to receive(:land!)
-      airport.clear_for_landing(plane)
-      allow(plane).to receive(:take_off!)
-      airport.clear_for_takeoff(plane)
+      airport.clear_for_landing(flying_plane)
+      allow(flying_plane).to receive(:take_off!)
+      airport.clear_for_takeoff(flying_plane)
       expect(airport.planes).to eq([])
     end
   end
@@ -69,19 +67,10 @@ describe Airport do
     it 'will not allow a plane to land if the airport is full' do
       full_airport = airport
       allow(airport).to receive(:weather_status).and_return("sunny")
-      allow(plane).to receive(:land!)
-      50.times { full_airport.clear_for_landing(plane) }
-      expect{ full_airport.clear_for_landing(plane) }.to raise_error
+      50.times { full_airport.clear_for_landing(flying_plane) }
+      expect{ full_airport.clear_for_landing(flying_plane) }.to raise_error
     end
   end
-    
-    # Include a weather condition using a module.
-    # The weather must be random and only have two states "sunny" or "stormy".
-    # Try and take off a plane, but if the weather is stormy, the plane can not take off and must remain in the airport.
-    # 
-    # This will require stubbing to stop the random return of the weather.
-    # If the airport has a weather condition of stormy,
-    # the plane can not land, and must not be in the airport
 
   context 'weather conditions' do
 
